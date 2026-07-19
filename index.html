@@ -24,7 +24,7 @@
         .logo { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; background: var(--gradient-duel); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .beta-badge { background: var(--team-red); color: white; font-size: 0.6rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
 
-        .btn-twitch { background-color: #6441a5; color: white; border: none; padding: 12px 24px; font-size: 1rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(100, 65, 165, 0.4); }
+        .btn-twitch { background-color: #6441a5; color: white; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(100, 65, 165, 0.4); display: flex; align-items: center; gap: 10px; }
         .btn-twitch:hover { background-color: #7d5bbe; transform: translateY(-2px); }
 
         .hero { text-align: center; padding: 120px 20px 80px; position: relative; }
@@ -84,13 +84,29 @@
 
         const btnLogin = document.getElementById('btn-login');
 
-        if (document.location.hash && document.location.hash.includes('access_token')) {
-            btnLogin.textContent = "✓ Connecté";
-            btnLogin.style.backgroundColor = "#28a745";
+        // Récupération des infos via API Twitch
+        async function getTwitchUser(token) {
+            const response = await fetch('https://api.twitch.tv/helix/users', {
+                headers: { 'Authorization': 'Bearer ' + token, 'Client-Id': CLIENT_ID }
+            });
+            const data = await response.json();
+            return data.data[0];
+        }
+
+        const hash = window.location.hash.substring(1);
+        const params = new URLSearchParams(hash);
+        const accessToken = params.get('access_token');
+
+        if (accessToken) {
+            getTwitchUser(accessToken).then(user => {
+                btnLogin.innerHTML = `<img src="${user.profile_image_url}" style="width:30px; height:30px; border-radius:50%;"> ${user.display_name}`;
+                btnLogin.style.backgroundColor = "#111";
+                btnLogin.style.cursor = "default";
+            });
         }
 
         btnLogin.addEventListener('click', function() {
-            if (btnLogin.textContent !== "✓ Connecté") {
+            if (!accessToken) {
                 const authUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=user:read:email`;
                 window.location.href = authUrl;
             }
