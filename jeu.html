@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Jeu en cours</title>
+    <style>
+        body { background: #050508; color: white; font-family: 'Inter', sans-serif; text-align: center; padding: 100px; }
+        .arena { border: 2px solid #00e5ff; padding: 50px; border-radius: 20px; display: inline-block; }
+    </style>
+</head>
+<body>
+    <div class="arena">
+        <h1 id="game-name">Chargement...</h1>
+    </div>
+    <script>
+        const game = new URLSearchParams(window.location.search).get('game');
+        document.getElementById('game-name').innerText = "MODE : " + (game ? game.toUpperCase() : "INCONNU");
+    </script>
+</body>
+</html>
