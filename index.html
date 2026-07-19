@@ -2,17 +2,21 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>StreamDuel | L'Arène des Créateurs</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
         body { background: #050508; color: #fff; font-family: 'Inter', sans-serif; margin: 0; }
         nav { display: flex; justify-content: space-between; padding: 20px 8%; align-items: center; border-bottom: 1px solid #1a1a24; }
         .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
-        .btn-twitch { background: #6441a5; padding: 10px 20px; border-radius: 6px; cursor: pointer; border: none; color: white; font-weight: 700; }
-        .hero { text-align: center; padding: 100px 20px; }
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 0 8%; margin-top: 50px; }
+        .btn-twitch { background: #6441a5; padding: 10px 20px; border-radius: 6px; cursor: pointer; border: none; color: white; font-weight: 700; transition: 0.2s; }
+        .btn-twitch:hover { background: #7a50ca; }
+        .hero { text-align: center; padding: 80px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; padding: 0 8% 50px; }
         .game-card { background: #0d0d14; padding: 30px; border-radius: 12px; border: 1px solid #1a1a24; transition: 0.3s; }
         .game-card:hover { border-color: #00e5ff; }
+        .game-card h3 { margin-top: 0; color: #00e5ff; }
+        .game-card p { color: #888; font-size: 0.9rem; line-height: 1.4; }
     </style>
 </head>
 <body>
@@ -22,28 +26,48 @@
     </nav>
     <div class="hero">
         <h1>L'arène interactive pour ta communauté</h1>
-        <button onclick="window.location.href='game.html'" style="padding:15px 40px; background:#00e5ff; border:none; border-radius:6px; font-weight:900; cursor:pointer; margin-top:20px;">CRÉER UN SALON</button>
+        <button onclick="window.location.href='game.html'" style="padding:15px 40px; background:#00e5ff; border:none; border-radius:6px; font-weight:900; cursor:pointer; margin-top:20px; color:#000;">CRÉER UN SALON</button>
     </div>
     <div class="grid">
-        <div class="game-card"><h3>Clics</h3></div>
-        <div class="game-card"><h3>Quiz</h3></div>
-        <div class="game-card"><h3>Survie</h3></div>
-        <div class="game-card"><h3>Vitesse</h3></div>
-        <div class="game-card"><h3>Mémoire</h3></div>
+        <div class="game-card"><h3>Clics</h3><p>La guerre des doigts : le camp qui clique le plus vite remporte le duel.</p></div>
+        <div class="game-card"><h3>Quiz</h3><p>Culture générale et réflexes : une mauvaise réponse coûte cher à l'équipe.</p></div>
+        <div class="game-card"><h3>Survie</h3><p>Évitez les pièges et restez les derniers debout dans l'arène.</p></div>
+        <div class="game-card"><h3>Vitesse</h3><p>Enchaînez les séquences de touches le plus rapidement possible.</p></div>
+        <div class="game-card"><h3>Mémoire</h3><p>Mémorisez les motifs et reproduisez-les sans faire d'erreur.</p></div>
     </div>
+    
     <script>
         const btnLogin = document.getElementById('btn-login');
         const hash = window.location.hash.substring(1);
         const params = new URLSearchParams(hash);
         const token = params.get('access_token');
+        const clientId = 'e1nems4av0les5wfghhpi5nj2krjcf';
+
+        // Cette ligne calcule exactement l'URL actuelle (ex: https://rozuya.github.io/StreamDuel/)
+        // C'est vital pour que Twitch sache où renvoyer l'utilisateur après la connexion.
+        const currentUrl = window.location.origin + window.location.pathname;
 
         if (token) {
-            fetch('https://api.twitch.tv/helix/users', { headers: { 'Authorization': 'Bearer ' + token, 'Client-Id': 'e1nems4av0les5wfghhpi5nj2krjcf' } })
-            .then(res => res.json()).then(data => {
-                btnLogin.innerHTML = `<img src="${data.data[0].profile_image_url}" style="width:24px; border-radius:50%; vertical-align:middle;"> ${data.data[0].display_name}`;
-            });
+            fetch('https://api.twitch.tv/helix/users', { 
+                headers: { 
+                    'Authorization': 'Bearer ' + token, 
+                    'Client-Id': clientId 
+                } 
+            })
+            .then(res => res.json())
+            .then(data => {
+                if(data.data && data.data[0]) {
+                    btnLogin.innerHTML = `<img src="${data.data[0].profile_image_url}" style="width:24px; height:24px; border-radius:50%; vertical-align:middle; margin-right:8px;"> ${data.data[0].display_name}`;
+                }
+            })
+            .catch(err => console.error("Erreur API Twitch :", err));
         }
-        btnLogin.onclick = () => window.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=e1nems4av0les5wfghhpi5nj2krjcf&redirect_uri=${window.location.origin}/&response_type=token&scope=user:read:email`;
+
+        btnLogin.onclick = () => {
+            // On encode l'URL pour être sûr que les caractères spéciaux passent bien
+            const redirectUri = encodeURIComponent(currentUrl);
+            window.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=user:read:email`;
+        };
     </script>
 </body>
 </html>
