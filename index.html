@@ -19,8 +19,11 @@
         body { background-color: var(--bg-dark); color: var(--text-light); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
 
         nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background-color: rgba(10, 10, 15, 0.95); border-bottom: 2px solid rgba(255, 255, 255, 0.05); position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; background: var(--gradient-duel); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         
+        .logo-container { display: flex; align-items: center; gap: 10px; }
+        .logo { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; background: var(--gradient-duel); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .beta-badge { background: var(--team-red); color: white; font-size: 0.6rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
+
         .btn-twitch { background-color: #6441a5; color: white; border: none; padding: 12px 24px; font-size: 1rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(100, 65, 165, 0.4); }
         .btn-twitch:hover { background-color: #7d5bbe; transform: translateY(-2px); }
 
@@ -41,7 +44,10 @@
 <body>
 
     <nav>
-        <div class="logo">StreamDuel</div>
+        <div class="logo-container">
+            <div class="logo">StreamDuel</div>
+            <span class="beta-badge">Bêta</span>
+        </div>
         <button id="btn-login" class="btn-twitch">Se connecter avec Twitch</button>
     </nav>
 
