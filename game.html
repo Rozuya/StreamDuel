@@ -17,7 +17,8 @@
         .team-box.blue { border-top: 4px solid #00e5ff; }
         .team-box.red { border-top: 4px solid #ff0055; }
         
-        .team-box h2 { margin-top: 0; font-size: 1.8rem; letter-spacing: -1px; }
+        /* Taille de police ajustée pour que les noms longs passent mieux */
+        .team-box h2 { margin-top: 0; font-size: 1.5rem; letter-spacing: -1px; }
         .blue h2 { color: #00e5ff; }
         .red h2 { color: #ff0055; }
         
@@ -51,7 +52,7 @@
         
         <!-- Équipe 1 (Bleue) -->
         <div class="team-box blue">
-            <h2 id="team1-name">Équipe Bleue</h2>
+            <h2 id="team1-name">Équipe de ...</h2>
             <p style="color:#aaa; font-size:0.9rem; margin-top:-10px;">Joueurs : 1/4</p>
             <ul class="player-list">
                 <li class="player-item filled">👑 Hôte du salon</li>
@@ -65,7 +66,7 @@
 
         <!-- Équipe 2 (Rouge) -->
         <div class="team-box red">
-            <h2 id="team2-name">Équipe Rouge</h2>
+            <h2 id="team2-name">Équipe de ...</h2>
             <p style="color:#aaa; font-size:0.9rem; margin-top:-10px;">Joueurs : 0/4</p>
             <ul class="player-list">
                 <li class="player-item">En attente...</li>
@@ -88,15 +89,18 @@
     </div>
 
     <script>
-        // 1. Récupère les noms des équipes depuis l'URL si on le souhaite (ex: game.html?team1=Hol_Rozuya&team2=Laura)
+        // 1. Récupère les noms des streameurs depuis l'URL
         const urlParams = new URLSearchParams(window.location.search);
-        const team1 = urlParams.get('team1') || "Ton Équipe";
-        const team2 = urlParams.get('team2') || "Équipe Adverse";
+        
+        // Si aucun nom n'est dans l'URL, ça mettra ces valeurs par défaut
+        const streamer1 = urlParams.get('team1') || "Toi";
+        const streamer2 = urlParams.get('team2') || "Adversaire";
 
-        document.getElementById('team1-name').innerText = team1;
-        document.getElementById('team2-name').innerText = team2;
+        // Ajoute automatiquement "Équipe de" devant le pseudo
+        document.getElementById('team1-name').innerText = "Équipe de " + streamer1;
+        document.getElementById('team2-name').innerText = "Équipe de " + streamer2;
 
-        // 2. Affiche visiblement le lien dans la barre pour que tu saches ce que tu copies
+        // 2. Affiche visiblement le lien dans la barre
         const currentUrl = window.location.href;
         document.getElementById('invite-link').value = currentUrl;
 
