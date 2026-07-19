@@ -47,7 +47,7 @@
 
         <!-- Équipe 2 -->
         <div class="team-box red">
-            <h2 id="team2-name">Équipe de House of Laura</h2>
+            <h2 id="team2-name">Équipe de ...</h2>
             <ul class="player-list">
                 <li class="player-item">En attente...</li>
                 <li class="player-item">En attente...</li>
@@ -66,14 +66,20 @@
     </div>
 
     <script>
+        // Récupération des noms
         const monNom = localStorage.getItem('streamerPseudo') || "hol_rozuya";
-        
+        const urlParams = new URLSearchParams(window.location.search);
+        const nomAdversaire = urlParams.get('adversaire') || "Adversaire";
+
+        // Application des noms
         document.getElementById('team1-name').innerText = "Équipe de " + monNom;
+        document.getElementById('team2-name').innerText = "Équipe de " + nomAdversaire;
         document.getElementById('host-player').innerText = "👑 " + monNom;
-        document.getElementById('invite-link').value = window.location.href;
+        document.getElementById('invite-link').value = window.location.origin + window.location.pathname;
 
         function copierLien() {
             const linkInput = document.getElementById('invite-link');
+            linkInput.select();
             navigator.clipboard.writeText(linkInput.value);
             alert("Lien copié !");
         }
