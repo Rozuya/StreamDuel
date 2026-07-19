@@ -2,60 +2,29 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>StreamDuel | Arène de Duel</title>
+    <title>Salon de Duel</title>
     <style>
-        body { background: #0a0a0f; color: white; font-family: 'Montserrat', sans-serif; text-align: center; padding: 40px; }
-        .salon-card { background: #14141e; padding: 30px; border-radius: 20px; width: 350px; margin: 0 auto; border: 2px solid #333; }
-        .player-list { list-style: none; padding: 0; margin: 20px 0; }
-        .player-item { background: #1f1f2e; margin: 8px 0; padding: 10px; border-radius: 8px; font-weight: bold; }
-        .copy-btn { background: #6441a5; color: white; border: none; padding: 12px 20px; border-radius: 8px; cursor: pointer; margin-top: 20px; width: 100%; font-weight: bold; }
-        .join-btn { background: #00e5ff; color: #000; border: none; padding: 15px 30px; border-radius: 50px; cursor: pointer; font-weight: 900; margin-top: 10px; }
+        body { background: #050508; color: white; font-family: 'Inter', sans-serif; text-align: center; padding: 50px; }
+        .lobby { background: #0d0d14; padding: 40px; border-radius: 12px; width: 350px; margin: 0 auto; }
+        button { padding: 12px 25px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; margin-top: 10px; }
     </style>
 </head>
 <body>
-
-    <h1 id="game-title">Chargement de l'arène...</h1>
-    
-    <div class="salon-card">
-        <h3>Membres (<span id="count">1</span>/4)</h3>
-        <ul id="players" class="player-list"></ul>
-        
-        <button class="join-btn" onclick="joinTeam()">REJOINDRE L'ÉQUIPE</button>
-        
-        <p style="margin-top:20px; font-size: 0.8rem; color: #666;">Partage ce lien à ton chat :</p>
-        <button class="copy-btn" onclick="copyInvite()">COPIER LE LIEN</button>
+    <h1 id="title">Salon de duel</h1>
+    <div class="lobby">
+        <ul id="players" style="list-style:none; padding:0;"></ul>
+        <button onclick="lancerJeu()" style="background:#00e5ff; width:100%;">LANCER LE JEU ALÉATOIRE</button>
+        <button onclick="navigator.clipboard.writeText(window.location.href)" style="background:#333; color:white; width:100%;">COPIER LE LIEN DU SALON</button>
     </div>
-
     <script>
         const urlParams = new URLSearchParams(window.location.search);
-        const streamerName = urlParams.get('team') || "Joueur_Inconnu";
+        document.getElementById('title').innerText = "Salon : " + (urlParams.get('team') || "En attente");
         
-        // Liste initiale avec le streameur
-        let players = [streamerName];
-        document.getElementById('game-title').innerText = "Arène : " + streamerName;
-
-        function joinTeam() {
-            if (players.length < 4) {
-                let pName = "Viewer_" + Math.floor(Math.random() * 999);
-                players.push(pName);
-                updateUI();
-            } else {
-                alert("L'équipe est complète !");
-            }
+        function lancerJeu() {
+            const jeux = ['clics', 'quiz', 'survie', 'vitesse', 'memoire'];
+            const choix = jeux[Math.floor(Math.random() * jeux.length)];
+            window.location.href = `jeu.html?game=${choix}`;
         }
-
-        function updateUI() {
-            const list = document.getElementById('players');
-            list.innerHTML = players.map(p => `<li class="player-item">👤 ${p}</li>`).join('');
-            document.getElementById('count').innerText = players.length;
-        }
-
-        function copyInvite() {
-            navigator.clipboard.writeText(window.location.href);
-            alert("Lien copié pour ton chat !");
-        }
-
-        updateUI();
     </script>
 </body>
 </html>
