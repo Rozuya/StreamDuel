@@ -2,24 +2,123 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <title>Salon de Duel</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salon de Duel | StreamDuel</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        body { background: #050508; color: white; font-family: 'Inter', sans-serif; text-align: center; padding: 50px; }
-        .lobby { background: #0d0d14; padding: 40px; border-radius: 12px; width: 350px; margin: 0 auto; }
-        button { padding: 12px 25px; border-radius: 6px; border: none; cursor: pointer; font-weight: 700; margin-top: 10px; }
+        body { background: #050508; color: white; font-family: 'Inter', sans-serif; text-align: center; padding: 40px 20px; margin: 0; }
+        h1 { font-weight: 900; color: #fff; margin-bottom: 5px; font-size: 2.5rem; text-transform: uppercase; }
+        .subtitle { color: #888; margin-bottom: 40px; font-size: 1.1rem; }
+
+        /* Mise en page VS */
+        .arena-container { display: flex; justify-content: center; align-items: stretch; gap: 30px; flex-wrap: wrap; margin-bottom: 40px; }
+        
+        .team-box { background: #0d0d14; padding: 25px; border-radius: 12px; border: 1px solid #1a1a24; width: 320px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .team-box.blue { border-top: 4px solid #00e5ff; }
+        .team-box.red { border-top: 4px solid #ff0055; }
+        
+        .team-box h2 { margin-top: 0; font-size: 1.8rem; letter-spacing: -1px; }
+        .blue h2 { color: #00e5ff; }
+        .red h2 { color: #ff0055; }
+        
+        .player-list { list-style: none; padding: 0; margin: 20px 0 0 0; }
+        .player-item { background: #151520; margin-bottom: 10px; padding: 15px; border-radius: 8px; font-weight: 700; color: #555; border: 1px dashed #333; transition: 0.3s; }
+        .player-item.filled { color: #fff; border-style: solid; border-color: #333; }
+        .blue .player-item.filled { border-color: rgba(0, 229, 255, 0.3); }
+        .red .player-item.filled { border-color: rgba(255, 0, 85, 0.3); }
+
+        .vs-badge { display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 900; color: #333; font-style: italic; }
+
+        /* Zone de lien et boutons */
+        .controls { background: #0d0d14; padding: 30px; border-radius: 12px; border: 1px solid #1a1a24; max-width: 700px; margin: 0 auto; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .link-box { display: flex; gap: 10px; margin-bottom: 25px; }
+        .link-box input { flex: 1; padding: 15px; border-radius: 6px; border: 1px solid #333; background: #050508; color: #00e5ff; font-family: monospace; font-size: 1rem; outline: none; }
+        
+        button { padding: 15px 30px; border-radius: 6px; border: none; cursor: pointer; font-weight: 900; transition: 0.2s; text-transform: uppercase; letter-spacing: 1px; }
+        .btn-copy { background: #333; color: white; }
+        .btn-copy:hover { background: #555; }
+        
+        .btn-launch { background: #00e5ff; color: #000; width: 100%; font-size: 1.2rem; }
+        .btn-launch:hover { background: #00c2d6; transform: translateY(-2px); }
     </style>
 </head>
 <body>
-    <h1 id="title">Salon de duel</h1>
-    <div class="lobby">
-        <ul id="players" style="list-style:none; padding:0;"></ul>
-        <button onclick="lancerJeu()" style="background:#00e5ff; width:100%;">LANCER LE JEU ALÉATOIRE</button>
-        <button onclick="navigator.clipboard.writeText(window.location.href)" style="background:#333; color:white; width:100%;">COPIER LE LIEN DU SALON</button>
-    </div>
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById('title').innerText = "Salon : " + (urlParams.get('team') || "En attente");
+    <h1 id="title">Préparation du Duel</h1>
+    <p class="subtitle">En attente des combattants...</p>
+
+    <!-- Zone des équipes -->
+    <div class="arena-container">
         
+        <!-- Équipe 1 (Bleue) -->
+        <div class="team-box blue">
+            <h2 id="team1-name">Équipe Bleue</h2>
+            <p style="color:#aaa; font-size:0.9rem; margin-top:-10px;">Joueurs : 1/4</p>
+            <ul class="player-list">
+                <li class="player-item filled">👑 Hôte du salon</li>
+                <li class="player-item">En attente...</li>
+                <li class="player-item">En attente...</li>
+                <li class="player-item">En attente...</li>
+            </ul>
+        </div>
+
+        <div class="vs-badge">VS</div>
+
+        <!-- Équipe 2 (Rouge) -->
+        <div class="team-box red">
+            <h2 id="team2-name">Équipe Rouge</h2>
+            <p style="color:#aaa; font-size:0.9rem; margin-top:-10px;">Joueurs : 0/4</p>
+            <ul class="player-list">
+                <li class="player-item">En attente...</li>
+                <li class="player-item">En attente...</li>
+                <li class="player-item">En attente...</li>
+                <li class="player-item">En attente...</li>
+            </ul>
+        </div>
+        
+    </div>
+
+    <!-- Zone de contrôle -->
+    <div class="controls">
+        <p style="margin-top: 0; margin-bottom: 12px; text-align: left; font-size: 0.95rem; color: #aaa; font-weight: bold;">Lien d'invitation à envoyer dans le chat :</p>
+        <div class="link-box">
+            <input type="text" id="invite-link" readonly>
+            <button class="btn-copy" onclick="copierLien()">Copier</button>
+        </div>
+        <button class="btn-launch" onclick="lancerJeu()">Lancer le jeu aléatoire</button>
+    </div>
+
+    <script>
+        // 1. Récupère les noms des équipes depuis l'URL si on le souhaite (ex: game.html?team1=Hol_Rozuya&team2=Laura)
+        const urlParams = new URLSearchParams(window.location.search);
+        const team1 = urlParams.get('team1') || "Ton Équipe";
+        const team2 = urlParams.get('team2') || "Équipe Adverse";
+
+        document.getElementById('team1-name').innerText = team1;
+        document.getElementById('team2-name').innerText = team2;
+
+        // 2. Affiche visiblement le lien dans la barre pour que tu saches ce que tu copies
+        const currentUrl = window.location.href;
+        document.getElementById('invite-link').value = currentUrl;
+
+        // 3. Fonction pour copier visuellement le lien
+        function copierLien() {
+            const linkInput = document.getElementById('invite-link');
+            linkInput.select();
+            navigator.clipboard.writeText(linkInput.value);
+            
+            const btn = document.querySelector('.btn-copy');
+            btn.innerText = "COPIÉ !";
+            btn.style.background = "#00e5ff";
+            btn.style.color = "#000";
+            
+            setTimeout(() => {
+                btn.innerText = "Copier";
+                btn.style.background = "#333";
+                btn.style.color = "white";
+            }, 2000);
+        }
+
+        // 4. Lancement du jeu
         function lancerJeu() {
             const jeux = ['clics', 'quiz', 'survie', 'vitesse', 'memoire'];
             const choix = jeux[Math.floor(Math.random() * jeux.length)];
