@@ -42,29 +42,24 @@
         const params = new URLSearchParams(hash);
         const token = params.get('access_token');
         const clientId = 'e1nems4av0les5wfghhpi5nj2krjcf';
-
-        // Cette ligne calcule exactement l'URL actuelle (ex: https://rozuya.github.io/StreamDuel/)
-        // C'est vital pour que Twitch sache où renvoyer l'utilisateur après la connexion.
         const currentUrl = window.location.origin + window.location.pathname;
 
         if (token) {
             fetch('https://api.twitch.tv/helix/users', { 
-                headers: { 
-                    'Authorization': 'Bearer ' + token, 
-                    'Client-Id': clientId 
-                } 
+                headers: { 'Authorization': 'Bearer ' + token, 'Client-Id': clientId } 
             })
             .then(res => res.json())
             .then(data => {
                 if(data.data && data.data[0]) {
-                    btnLogin.innerHTML = `<img src="${data.data[0].profile_image_url}" style="width:24px; height:24px; border-radius:50%; vertical-align:middle; margin-right:8px;"> ${data.data[0].display_name}`;
+                    const pseudo = data.data[0].display_name;
+                    // On enregistre le pseudo pour qu'il soit utilisé dans game.html
+                    localStorage.setItem('streamerPseudo', pseudo);
+                    btnLogin.innerHTML = `<img src="${data.data[0].profile_image_url}" style="width:24px; height:24px; border-radius:50%; vertical-align:middle; margin-right:8px;"> ${pseudo}`;
                 }
-            })
-            .catch(err => console.error("Erreur API Twitch :", err));
+            });
         }
 
         btnLogin.onclick = () => {
-            // On encode l'URL pour être sûr que les caractères spéciaux passent bien
             const redirectUri = encodeURIComponent(currentUrl);
             window.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&response_type=token&scope=user:read:email`;
         };
