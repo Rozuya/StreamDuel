@@ -2,115 +2,48 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamDuel | L'arène interactive pour tes viewers</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
+    <title>StreamDuel | L'Arène des Créateurs</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg-dark: #0a0a0f;
-            --bg-panel: #14141e;
-            --text-light: #e0e0e0;
-            --team-red: #ff4655;
-            --team-blue: #00e5ff;
-            --gradient-duel: linear-gradient(135deg, var(--team-red) 0%, var(--team-blue) 100%);
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { background-color: var(--bg-dark); color: var(--text-light); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
-
-        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 5%; background-color: rgba(10, 10, 15, 0.95); border-bottom: 2px solid rgba(255, 255, 255, 0.05); position: sticky; top: 0; z-index: 100; }
-        
-        .logo-container { display: flex; align-items: center; gap: 10px; }
-        .logo { font-size: 2rem; font-weight: 900; text-transform: uppercase; letter-spacing: 1px; background: var(--gradient-duel); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .beta-badge { background: var(--team-red); color: white; font-size: 0.6rem; font-weight: 900; padding: 2px 6px; border-radius: 4px; text-transform: uppercase; }
-
-        .btn-twitch { background-color: #6441a5; color: white; border: none; padding: 10px 20px; font-size: 1rem; font-weight: 700; border-radius: 4px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 4px 15px rgba(100, 65, 165, 0.4); display: flex; align-items: center; gap: 10px; }
-        .btn-twitch:hover { background-color: #7d5bbe; transform: translateY(-2px); }
-
-        .hero { text-align: center; padding: 120px 20px 80px; position: relative; }
-        .hero h1 { font-size: 4rem; font-weight: 900; line-height: 1.1; margin-bottom: 20px; text-transform: uppercase; color: #ffffff; }
-        .hero p { font-size: 1.2rem; max-width: 600px; margin: 0 auto 40px; color: #a0a0b0; }
-        .btn-play { background: var(--gradient-duel); color: white; border: none; padding: 16px 40px; font-size: 1.2rem; font-weight: 900; text-transform: uppercase; border-radius: 50px; cursor: pointer; transition: transform 0.2s; }
-        .btn-play:hover { transform: scale(1.05); }
-
-        .features-title { text-align: center; font-size: 2.5rem; margin: 60px 0 30px; font-weight: 900; }
-        .grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; padding: 20px 10%; margin-bottom: 80px; }
-        .card { background-color: var(--bg-panel); padding: 40px 30px; border-radius: 12px; border-top: 4px solid #333; transition: transform 0.3s ease; }
-        .card:hover { transform: translateY(-10px); }
-        .card-icon { font-size: 3rem; margin-bottom: 20px; }
-        footer { text-align: center; padding: 30px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: #555; }
+        body { background: #050508; color: #fff; font-family: 'Inter', sans-serif; margin: 0; }
+        nav { display: flex; justify-content: space-between; padding: 20px 8%; align-items: center; border-bottom: 1px solid #1a1a24; }
+        .logo { font-size: 1.5rem; font-weight: 900; letter-spacing: -1px; }
+        .btn-twitch { background: #6441a5; padding: 10px 20px; border-radius: 6px; cursor: pointer; border: none; color: white; font-weight: 700; }
+        .hero { text-align: center; padding: 100px 20px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; padding: 0 8%; margin-top: 50px; }
+        .game-card { background: #0d0d14; padding: 30px; border-radius: 12px; border: 1px solid #1a1a24; transition: 0.3s; }
+        .game-card:hover { border-color: #00e5ff; }
     </style>
 </head>
 <body>
-
     <nav>
-        <div class="logo-container">
-            <div class="logo">StreamDuel</div>
-            <span class="beta-badge">Bêta</span>
-        </div>
-        <button id="btn-login" class="btn-twitch">Se connecter avec Twitch</button>
+        <div class="logo">STREAMDUEL</div>
+        <button id="btn-login" class="btn-twitch">Connexion Twitch</button>
     </nav>
-
-    <header class="hero">
-        <h1>Le Chat Déclare<br>La Guerre</h1>
-        <p>Ne te contente plus de lire tes viewers. Fais-les s'affronter en direct dans des mini-jeux explosifs.</p>
-        <button class="btn-play" onclick="document.getElementById('btn-login').click()">Créer mon arène</button>
-    </header>
-
-    <h2 class="features-title">Au programme</h2>
-    <section class="grid-container">
-        <div class="card">
-            <div class="card-icon">🔥</div>
-            <h3>Guerre de Clics</h3>
-            <p>Spammez le plus vite possible pour tirer la corde de votre côté.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon">🧠</div>
-            <h3>Quiz Fatal</h3>
-            <p>Des questions de culture générale pour infliger des dégâts à l'adversaire.</p>
-        </div>
-        <div class="card">
-            <div class="card-icon">🎯</div>
-            <h3>Survie Royale</h3>
-            <p>Le dernier camp en vie remporte la manche.</p>
-        </div>
-    </section>
-
-    <footer>&copy; 2026 StreamDuel. Propulsé par ta communauté.</footer>
-
+    <div class="hero">
+        <h1>L'arène interactive pour ta communauté</h1>
+        <button onclick="window.location.href='game.html'" style="padding:15px 40px; background:#00e5ff; border:none; border-radius:6px; font-weight:900; cursor:pointer; margin-top:20px;">CRÉER UN SALON</button>
+    </div>
+    <div class="grid">
+        <div class="game-card"><h3>Clics</h3></div>
+        <div class="game-card"><h3>Quiz</h3></div>
+        <div class="game-card"><h3>Survie</h3></div>
+        <div class="game-card"><h3>Vitesse</h3></div>
+        <div class="game-card"><h3>Mémoire</h3></div>
+    </div>
     <script>
-        const CLIENT_ID = 'e1nems4av0les5wfghhpi5nj2krjcf'; 
-        const REDIRECT_URI = 'https://rozuya.github.io/StreamDuel/'; 
-
         const btnLogin = document.getElementById('btn-login');
-
-        // Récupération des infos via API Twitch
-        async function getTwitchUser(token) {
-            const response = await fetch('https://api.twitch.tv/helix/users', {
-                headers: { 'Authorization': 'Bearer ' + token, 'Client-Id': CLIENT_ID }
-            });
-            const data = await response.json();
-            return data.data[0];
-        }
-
         const hash = window.location.hash.substring(1);
         const params = new URLSearchParams(hash);
-        const accessToken = params.get('access_token');
+        const token = params.get('access_token');
 
-        if (accessToken) {
-            getTwitchUser(accessToken).then(user => {
-                btnLogin.innerHTML = `<img src="${user.profile_image_url}" style="width:30px; height:30px; border-radius:50%;"> ${user.display_name}`;
-                btnLogin.style.backgroundColor = "#111";
-                btnLogin.style.cursor = "default";
+        if (token) {
+            fetch('https://api.twitch.tv/helix/users', { headers: { 'Authorization': 'Bearer ' + token, 'Client-Id': 'e1nems4av0les5wfghhpi5nj2krjcf' } })
+            .then(res => res.json()).then(data => {
+                btnLogin.innerHTML = `<img src="${data.data[0].profile_image_url}" style="width:24px; border-radius:50%; vertical-align:middle;"> ${data.data[0].display_name}`;
             });
         }
-
-        btnLogin.addEventListener('click', function() {
-            if (!accessToken) {
-                const authUrl = `https://id.twitch.tv/oauth2/authorize?client_id=${CLIENT_ID}&redirect_uri=${encodeURIComponent(REDIRECT_URI)}&response_type=token&scope=user:read:email`;
-                window.location.href = authUrl;
-            }
-        });
+        btnLogin.onclick = () => window.location.href = `https://id.twitch.tv/oauth2/authorize?client_id=e1nems4av0les5wfghhpi5nj2krjcf&redirect_uri=${window.location.origin}/&response_type=token&scope=user:read:email`;
     </script>
 </body>
 </html>
